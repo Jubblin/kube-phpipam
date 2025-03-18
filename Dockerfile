@@ -1,11 +1,11 @@
-FROM golang:1.12.3 as builder
+FROM golang:1.12.3 AS builder
 
 WORKDIR /go/src
 ENV GO111MODULE=on
 COPY go.mod go.sum *.go ./
 COPY phpipam ./phpipam/
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo .
-RUN strip kube-phpipam
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo . && \
+  strip kube-phpipam
 
 FROM phusion/baseimage:latest
 RUN apt-get update && apt-get -y install ca-certificates && rm -rf /var/lib/apt/lists/*
