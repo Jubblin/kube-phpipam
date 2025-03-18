@@ -7,7 +7,7 @@ COPY phpipam ./phpipam/
 RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo . && \
   strip kube-phpipam
 
-FROM phusion/baseimage:latest
+FROM ubuntu:latest
 RUN apt-get update && apt-get -y install ca-certificates && rm -rf /var/lib/apt/lists/*
 COPY *.crt /usr/local/share/ca-certificates/
 RUN update-ca-certificates
